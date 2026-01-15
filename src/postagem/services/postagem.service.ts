@@ -1,6 +1,7 @@
 import {HttpException, HttpStatus, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {DeleteResult,ILike,Repository} from "typeorm";
+import { TemaService } from "../../tema/services/tema.service";
 import {Postagem} from "../entities/postagem.entity";
 
 
@@ -9,7 +10,8 @@ import {Postagem} from "../entities/postagem.entity";
 export class PostagemService{
     constructor(
         @InjectRepository(Postagem)
-        private postagemRepository: Repository<Postagem>
+        private postagemRepository: Repository<Postagem>,
+        private temaService: TemaService
 
     ){}
     async findAll(): Promise<Postagem[]> {
@@ -34,16 +36,24 @@ async findAllByTitulo (titulo:string): Promise<Postagem[]>{
     return await this.postagemRepository.find({
         where:{ 
             titulo:ILike(`%${titulo}%`)
+        },
+        relations:{
+        tema: true
         }
     })
 }
 
 async create(postagem:Postagem): Promise<Postagem>{
+
+    await this.temaService.findById(postagem.tema.id)
+
     return await this.postagemRepository.save(postagem);
 }
 
 async update(postagem: Postagem): Promise<Postagem>{
     await this.findById(postagem.id)
+
+    await this.temaService.findById(postagem.tema.id)
 
     return await this.postagemRepository.save(postagem);
 }
