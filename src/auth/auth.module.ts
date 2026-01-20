@@ -1,15 +1,13 @@
-import { forwardRef,Module } from "@nestjs/common";
-import { JwtModule} from "@nestjs/jwt";
-import { PassportModule} from "@nestjs/passport";
-import { UsuarioModule } from "../usuario/usuario.module";
-import { Bcrypt} from "./bcrypt/bcrypt";
-import { jwtConstants} from "./constants/constants";
-import {AuthController} from...
-import {AuthService}
-import { LocalStrategy } from "./strategy/local.strategy";
-import { JwtStrategy } from "./strategy/jwt.strategy";
-
-
+import { forwardRef, Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { UsuarioModule } from '../usuario/usuario.module';
+import { Bcrypt } from './bcrypt/bcrypt';
+import { jwtConstants } from './constants/constants';
+import { JwtStrategy } from './strategy/jwt.strategy';
+import { LocalStrategy } from './strategy/local.strategy';
+import { AuthService } from './services/auth.service';
+import { AuthController } from './controllers/auth.controller'; 
 
 
 
