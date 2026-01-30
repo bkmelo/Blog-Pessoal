@@ -1,33 +1,36 @@
-import {IsEmail,IsNotEmpty,MinLength} from "class-validator"
-import {Column, Entity, OneToMany,PrimaryGeneratedColumn} from "typeorm"
-import {Postagem} from "../../postagem/entities/postagem.entity"
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Postagem } from '../../postagem/entities/postagem.entity';
 
+@Entity({ name: 'tb_usuarios' })
+export class Usuario {
+  @PrimaryGeneratedColumn()
+  @ApiProperty()
+  id: number;
 
-@Entity({name:"tb_usuarios"})
-export class Usuario{
+  @IsNotEmpty()
+  @Column({ length: 255, nullable: false })
+  @ApiProperty()
+  nome: string;
 
-    @PrimaryGeneratedColumn()
-    id:number
+  @IsEmail()
+  @IsNotEmpty()
+  @Column({ length: 255, nullable: false })
+  @ApiProperty()
+  usuario: string;
 
-    @IsNotEmpty()
-    @Column({length:255,nullable:false})
-    nome:string
+  @IsNotEmpty()
+  @MinLength(8)
+  @Column({ length: 255, nullable: false })
+  @ApiProperty()
+  senha: string;
 
-    @IsEmail()
-    @IsNotEmpty()
-    @Column({length:255,nullable:false})
-    usuario:string
+  @Column({ length: 500 })
+  @ApiProperty()
+  foto: string;
 
-    @MinLength(8)
-    @IsNotEmpty()
-    @Column({length:255,nullable:false})
-    senha: string
-
-    @Column({length:500})
-    foto: string
-
-    @OneToMany(()=> Postagem, (postagem) => postagem.usuario)
-    postagem:Postagem[]
-
-
+  @ApiProperty()
+  @OneToMany(() => Postagem, (postagem) => postagem.usuario)
+  postagem: Postagem[];
 }

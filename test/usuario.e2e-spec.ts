@@ -1,7 +1,7 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import * as request from 'supertest';
-import Test from 'supertest/lib/test';
+import request from 'supertest';
 import { AppModule } from '../src/app.module';
 
 describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
@@ -33,7 +33,7 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
   });
 
   it('01 - Deve Cadastrar um novo Usuário', async () => {
-    const reposta = await request(app.getHttpServer())
+    const resposta = await request(app.getHttpServer())
       .post('/usuarios/cadastrar')
       .send({
         nome: 'Root',
@@ -73,7 +73,7 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
   it('04 - Deve Listar todos os Usuários', async () => {
     return request(app.getHttpServer())
       .get('/usuarios/all')
-      .set('Authorization', '${token}')
+      .set('Authorization', `${token}`)
       .send({})
       .expect(200);
   });
